@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+<h2>{{ inventory_name }}</h2>
+
+<table>
+    <tr>
+        <th>Nombre</th>
+        <th>Cantidad</th>
+    </tr>
+    {{ for article in articles }}
+    <tr>
+        <td>{{ article.name }}</td>
+        <td>{{ article.quantity }}</td>
+    </tr>
+    {{ end }}
+</table>
+
+</body>
+</html>
+
