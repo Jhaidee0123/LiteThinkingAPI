@@ -28,7 +28,21 @@ public class CompaniesController : ControllerBase
     [HttpPost]
     [Route("create-company")]
     [Authorize(Roles = UserRoles.Admin)]
-    public async Task<IActionResult> CreateCompany([FromBody] CreateCompanyCommand command)
+    public async Task<IActionResult> CreateCompanyAsync([FromBody] CreateCompanyCommand command)
+    {
+        await _mediator.Send(command);
+        return StatusCode(StatusCodes.Status201Created);
+    }
+
+    /// <summary>
+    /// PUT /api/companies/edit-company
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    [HttpPut]
+    [Route("edit-company")]
+    [Authorize(Roles = UserRoles.Admin)]
+    public async Task<IActionResult> EditCompanyAsync([FromBody] EditCompanyCommand command)
     {
         await _mediator.Send(command);
         return StatusCode(StatusCodes.Status201Created);
@@ -40,9 +54,21 @@ public class CompaniesController : ControllerBase
     /// <returns></returns>
     [HttpGet]
     [Route("list-companies")]
-    [Authorize]
-    public async Task<IActionResult> ListCompanies()
+    [Authorize(Roles = UserRoles.Admin)]
+    public async Task<IActionResult> ListCompaniesAsync()
     {
         return Ok(await _mediator.Send(new ListCompaniesQuery()));
+    }
+
+    /// <summary>
+    /// DELETE /api/companies/remove-company
+    /// </summary>
+    /// <returns></returns>
+    [HttpDelete]
+    [Route("remove-company/{companyId}")]
+    [Authorize(Roles = UserRoles.Admin)]
+    public async Task<IActionResult> RemoveCompanyAsync([FromRoute] Guid companyId)
+    {
+        return Ok(await _mediator.Send(new RemoveCompanyCommand() { CompanyId = companyId }));
     }
 }
