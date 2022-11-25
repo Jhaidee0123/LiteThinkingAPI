@@ -1,2 +1,2 @@
-# LiteThinkingTest
-LiteThinkingTest with API and UI
+# LiteThinking
+LiteThinking API
